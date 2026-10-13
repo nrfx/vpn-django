@@ -15,8 +15,26 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from vpn import views
+from rest_framework.routers import DefaultRouter
+from vpn.api import (
+    TariffViewSet,
+    SubscriptionViewSet,
+    DeviceViewSet,
+    ProfileViewSet,
+    PaymentViewSet,
+)
+
+router = DefaultRouter()
+router.register('tariffs', TariffViewSet)
+router.register('subscriptions', SubscriptionViewSet)
+router.register('devices', DeviceViewSet)
+router.register('profiles', ProfileViewSet)
+router.register('payments', PaymentViewSet)
 
 urlpatterns = [
+    path('', views.TariffsView.as_view(), name='show_tariffs'),
     path('admin/', admin.site.urls),
+    path('api/', include(router.urls)),
 ]
