@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from vpn import views
 from rest_framework.routers import DefaultRouter
 from vpn.api import (
@@ -37,4 +39,4 @@ urlpatterns = [
     path('', views.TariffsView.as_view(), name='show_tariffs'),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

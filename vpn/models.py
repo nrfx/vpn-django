@@ -52,8 +52,13 @@ class Device(models.Model):
         return f'{self.name} ({self.subscription.user.username})'
 
 class Profile(models.Model):
+    class Role(models.IntegerChoices):
+        USER = 0, 'Пользователь'
+        ADMIN = 1, 'Администратор'
+        
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     balance = models.DecimalField('Баланс', max_digits=8, decimal_places=2, default=0)
+    role = models.IntegerField('Роль', choices=Role.choices, default=Role.USER)
 
     class Meta:
         verbose_name = 'Профиль'
