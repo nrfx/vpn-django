@@ -25,6 +25,7 @@ from vpn.api import (
     SubscriptionViewSet,
     DeviceViewSet,
     ProfileViewSet,
+    ClientViewSet,
     PaymentViewSet,
 )
 
@@ -33,6 +34,7 @@ router.register('tariffs', TariffViewSet)
 router.register('subscriptions', SubscriptionViewSet)
 router.register('devices', DeviceViewSet)
 router.register('profiles', ProfileViewSet)
+router.register('clients', ClientViewSet, basename='client')
 router.register('payments', PaymentViewSet)
 
 urlpatterns = [

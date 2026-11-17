@@ -6,6 +6,7 @@ from vpn.serializers import (
     SubscriptionSerializer,
     DeviceSerializer,
     ProfileSerializer,
+    ClientSerializer,
     PaymentSerializer,
 )
 
@@ -28,6 +29,15 @@ class DeviceViewSet(ModelViewSet):
 class ProfileViewSet(ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+
+
+class ClientViewSet(ModelViewSet):
+    queryset = Profile.objects.select_related('user').order_by('id')
+    serializer_class = ClientSerializer
+
+    def perform_destroy(self, instance):
+        # каскадное удаление 
+        instance.user.delete()
 
 
 class PaymentViewSet(ModelViewSet):

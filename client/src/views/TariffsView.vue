@@ -13,27 +13,12 @@ const tariffToAdd = ref({
   price: "",
   device_limit: 1,
 });
-const clients = ref([]);
 const tariffs = ref([]);
 const tariffToEdit = ref({});
 
 
 const loading = ref(false);
 
-const a=ref(12);
-const b=ref(5);
-
-const c = computed(() => {
-  return a.value + b.value; 
-})
-
-async function fetchClients() {
-  loading.value = true;
-  const r = await axios.get("/api/clients/");
-  console.log(r.data)
-  clients.value = r.data;
-  loading.value = false;
-}
 
 async function fetchTariffs() {
   loading.value = true;
@@ -51,7 +36,7 @@ async function onTariffAdd() {
   await axios.post("/api/tariffs/", {
     ...tariffToAdd.value,
   });
-  await fetchTariffs(); // переподтягиваю список
+  await fetchTariffs();
   tariffToAdd.value = { name: "", duration_days: 30, price: "", device_limit: 1 };
 }
 
@@ -66,9 +51,10 @@ async function onUpdateTariff() {
   await fetchTariffs();
 }
 async function onTariffRemoveClick(tariff) {
+  if (!confirm(`Удалить тариф ${tariff.name}?`)) return
   console.log("remove", tariff)
   await axios.delete(`/api/tariffs/${tariff.id}/`);
-  await fetchTariffs(); // переподтягиваю список, 
+  await fetchTariffs(); 
 }
 
 onBeforeMount(async() => {
@@ -163,33 +149,33 @@ onBeforeMount(async() => {
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="editTariffModalLabel">Modal title</h1>
+        <h1 class="modal-title fs-5" id="editTariffModalLabel">Редактирование тарифа</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
             <div class="row">
               <div class="col">
-                <div class="form-floating">
+                <div class="form-floating mb-2">
                   <input type="text" class="form-control" id="editName" v-model="tariffToEdit.name" required />
                   <label for="editName">Название</label>
                 </div>
               </div>
               <div class="col-auto">
-                <div class="form-floating">
+                <div class="form-floating mb-2">
                   <input type="number" min="1" class="form-control" id="editDays" v-model="tariffToEdit.duration_days"
                     required />
                   <label for="editDays">Срок (дни)</label>
                 </div>
               </div>
               <div class="col-auto">
-                <div class="form-floating">
+                <div class="form-floating mb-2">
                   <input type="number" min="0" step="0.01" class="form-control" id="editPrice"
                     v-model="tariffToEdit.price" required />
                   <label for="editPrice">Цена</label>
                 </div>
               </div>
               <div class="col-auto">
-                <div class="form-floating">
+                <div class="form-floating mb-2">
                   <input type="number" min="1" class="form-control" id="editLimit" v-model="tariffToEdit.device_limit"
                     required />
                   <label for="editLimit">Лимит устройств</label>

@@ -14,7 +14,10 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <router-link class="nav-link" to="/clients">Подписки</router-link>
+              <router-link class="nav-link" to="/subscriptions">Подписки</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/clients">Клиенты</router-link>
             </li>
             <li class="nav-item">
               <router-link class="nav-link" to="/tariffs">Тарифы</router-link>
